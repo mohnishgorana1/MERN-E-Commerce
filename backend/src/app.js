@@ -3,15 +3,16 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 
+// routes imports
+import userRoutes from "./routes/user.routes.js";
+
 const app = express();
 
-
-// middlewares:  express.json | cors | cookieParser | morgan | 
+// middlewares:  express.json | cors | cookieParser | morgan |
 app.use(express.json());
-app.use(express.urlencoded({ extended: true}))
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(morgan("dev"));
-
 
 // default route
 app.use("/ping", (req, res) => {
@@ -21,6 +22,9 @@ app.use("/ping", (req, res) => {
   });
 });
 
+//app routes
+
+app.use("/api/v1/user", userRoutes);
 
 app.all("*", (req, res) => {
   res.status(404).send("404, Page NOT FOUND nhi mila page");
