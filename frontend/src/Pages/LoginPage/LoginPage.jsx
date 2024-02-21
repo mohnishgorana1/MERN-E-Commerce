@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { loginUserAsync } from "../../Redux/user/authSlice";
@@ -88,6 +88,12 @@ function LoginPage() {
             Login
           </button>
         </form>
+        <h1 className="mt-5 font-semibold">
+          Not Registered Yet?&nbsp;
+          <span className="text-blue-700 font-semibold hover:underline">
+            <Link to='/login' >Create Acocunt</Link>
+          </span>
+        </h1>
       </div>
     </div>
   );

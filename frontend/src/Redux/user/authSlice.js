@@ -16,12 +16,16 @@ const initialState = {
 export const registerUserAsync = createAsyncThunk(
   "user/register",
   async (userData) => {
-    const response = await axios.post("/api/v1/user/register", userData);
-    if (response?.status === 200) {
-      toast.success("User Registered Successfully");
+    try {
+      const response = await axios.post("/api/v1/user/register", userData);
+      if (response?.status === 200) {
+        toast.success("User Registered Successfully");
+      }
+      console.log("register res: ", response);
+      return response.data;
+    } catch (error) {
+      toast.error("API Error on Register!");
     }
-    console.log("register res: ", response);
-    return response.data;
   }
 );
 
@@ -49,6 +53,10 @@ export const loginUserAsync = createAsyncThunk(
 
 export const logoutUserAsync = createAsyncThunk("user/logout", async () => {
   const response = await axios.get("/api/v1/user/logout");
+  console.log("Logout Response", response);
+  if (response?.data?.success === true) {
+    toast.success(response?.data?.message);
+  }
   return response.data;
 });
 
@@ -89,6 +97,7 @@ const userSlice = createSlice({
     builder.addCase(logoutUserAsync.fulfilled, (state) => {
       state.user = null;
       state.status = "succeeded";
+      localStorage.clear();
     });
 
     // Reducer for getProfile

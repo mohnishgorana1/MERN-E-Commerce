@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { registerUserAsync } from "../../Redux/user/authSlice";
@@ -63,7 +63,17 @@ function RegisterPage() {
       avatar,
     } = registerData;
 
-    if (  !firstName ||  !lastName ||  !username ||  !email ||  !password ||  !confirmPassword ||  !phone ||  !address ||  !avatar) {
+    if (
+      !firstName ||
+      !lastName ||
+      !username ||
+      !email ||
+      !password ||
+      !confirmPassword ||
+      !phone ||
+      !address ||
+      !avatar
+    ) {
       toast.error("All Fields are Required");
       return;
     }
@@ -94,7 +104,7 @@ function RegisterPage() {
       confirmPassword: "",
       phone: "",
       address: "",
-      avatar: ""
+      avatar: "",
     });
   };
 
@@ -142,7 +152,10 @@ function RegisterPage() {
             />
           </div>
           <div className="flex sm:items-center justify-between w-full">
-            <label htmlFor="lastName" className="place-self-start text-sm sm:text-lg font-semibold tracking-wider ">
+            <label
+              htmlFor="lastName"
+              className="place-self-start text-sm sm:text-lg font-semibold tracking-wider "
+            >
               LastName
             </label>
             <input
@@ -155,7 +168,10 @@ function RegisterPage() {
             />
           </div>{" "}
           <div className="flex sm:items-center justify-between w-full">
-            <label htmlFor="username" className="place-self-start text-sm sm:text-lg font-semibold tracking-wider ">
+            <label
+              htmlFor="username"
+              className="place-self-start text-sm sm:text-lg font-semibold tracking-wider "
+            >
               UserName
             </label>
             <input
@@ -168,7 +184,10 @@ function RegisterPage() {
             />
           </div>{" "}
           <div className="flex sm:items-center justify-between w-full">
-            <label htmlFor="email" className="place-self-start text-sm sm:text-lg font-semibold tracking-wider ">
+            <label
+              htmlFor="email"
+              className="place-self-start text-sm sm:text-lg font-semibold tracking-wider "
+            >
               Email
             </label>
             <input
@@ -181,7 +200,10 @@ function RegisterPage() {
             />
           </div>
           <div className="flex sm:items-center justify-between w-full">
-            <label htmlFor="password" className="place-self-start text-sm sm:text-lg font-semibold tracking-wider ">
+            <label
+              htmlFor="password"
+              className="place-self-start text-sm sm:text-lg font-semibold tracking-wider "
+            >
               Password
             </label>
             <input
@@ -210,7 +232,10 @@ function RegisterPage() {
             />
           </div>{" "}
           <div className="flex sm:items-center justify-between w-full">
-            <label htmlFor="phone" className="place-self-start text-sm sm:text-lg font-semibold tracking-wider ">
+            <label
+              htmlFor="phone"
+              className="place-self-start text-sm sm:text-lg font-semibold tracking-wider "
+            >
               Phone Number
             </label>
             <input
@@ -225,7 +250,10 @@ function RegisterPage() {
             />
           </div>{" "}
           <div className="flex sm:items-center justify-between w-full">
-            <label htmlFor="address" className="place-self-start text-sm sm:text-lg font-semibold tracking-wider ">
+            <label
+              htmlFor="address"
+              className="place-self-start text-sm sm:text-lg font-semibold tracking-wider "
+            >
               Address
             </label>
             <input
@@ -246,6 +274,12 @@ function RegisterPage() {
             Register
           </button>
         </form>
+        <h1 className="font-semibold mt-5">
+          Already have an Account?&nbsp;
+          <span className="text-blue-700 font-semibold hover:underline">
+            <Link to="/login">Sign in</Link>
+          </span>
+        </h1>
       </div>
     </div>
   );
