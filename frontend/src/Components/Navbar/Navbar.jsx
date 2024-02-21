@@ -27,7 +27,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="w-full bg-white grid py-5 px-10 bg-[#131921ff]">
+    <nav className="w-full grid py-5 px-10 bg-[#131921ff]">
       <nav className="grid grid-cols-12 justify-between items-center text-white">
         <div id="sidebar" className="col-span-2 sm:col-span-3">
           <GiHamburgerMenu
@@ -70,6 +70,7 @@ function Navbar() {
         }`}
         onClick={toggleSidebar}
       ></div>
+      {/* sidebar-content */}
       <div
         className={`fixed inset-y-0 left-0 w-[80%] sm:w-64 bg-gray-300 transform transition-transform ease-in-out duration-300 ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
@@ -80,21 +81,31 @@ function Navbar() {
             <Link
               to="/products/men"
               className="block py-2 px-4 hover:bg-slate-900 hover:text-white"
+              onClick={toggleSidebar}
             >
               MEN
             </Link>
             <Link
               to="products/women"
               className="block py-2 px-4 hover:bg-slate-900 hover:text-white"
+              onClick={toggleSidebar}
             >
               WOMEN
             </Link>
           </div>
           <div className="grid gap-4">
-            <Link className="flex items-center justify-between font-semibold px-4 py-1 border border-[#131921ff] hover:bg-[#131921ff] hover:text-white ease-in-out duration-200">
+            <Link
+              to="/register"
+              onClick={toggleSidebar}
+              className="flex items-center justify-between font-semibold px-4 py-1 border border-[#131921ff] hover:bg-[#131921ff] hover:text-white ease-in-out duration-200"
+            >
               Register <FaRegUser className="text-xl" />
             </Link>
-            <Link className="flex items-center justify-between gap-1 px-4 py-1 border border-[#131921ff] hover:bg-[#131921ff] hover:text-white ease-in-out duration-200">
+            <Link
+              to="/cart"
+              onClick={toggleSidebar}
+              className="flex items-center justify-between gap-1 px-4 py-1 border border-[#131921ff] hover:bg-[#131921ff] hover:text-white ease-in-out duration-200"
+            >
               <span className="">Cart</span>{" "}
               <FaShoppingCart className="text-2xl" />
             </Link>
