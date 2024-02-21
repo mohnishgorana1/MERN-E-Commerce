@@ -4,6 +4,7 @@ import { FaUser, FaShoppingCart, FaRegUser } from "react-icons/fa";
 import { TiThMenu } from "react-icons/ti";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 function Navbar() {
   const navLinks = [
@@ -18,6 +19,8 @@ function Navbar() {
       link: "products/women",
     },
   ];
+
+  const user = useSelector((state) => state.auth.user) || null;
 
   const location = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -50,12 +53,19 @@ function Navbar() {
           id="cart_auth"
           className="col-span-2 sm:col-span-3 flex items-center justify-end gap-10"
         >
-          <Link
-            to="/register"
-            className="hidden sm:flex font-semibold px-4 py-1 border border-white hover:bg-white hover:text-[#131921ff] ease-in-out duration-200"
-          >
-            Register
-          </Link>
+          {!user ? (
+            <Link
+              to="/register"
+              className="hidden sm:flex font-semibold px-4 py-1 border border-white hover:bg-white hover:text-[#131921ff] ease-in-out duration-200"
+            >
+              Register
+            </Link>
+          ) : (
+            <div className="hidden sm:flex font-semibold px-4 py-1 border border-white hover:bg-white hover:text-[#131921ff] ease-in-out duration-200">
+              {user.profile.firstName} {user.profile.lastName}
+            </div>
+          )}
+
           <Link className="flex items-center gap-1 px-4 py-1 border border-transparent hover:border hover:border-white ease-in-out duration-200">
             <span className="hidden sm:flex">Cart</span>{" "}
             <FaShoppingCart className="text-2xl" />
@@ -94,13 +104,19 @@ function Navbar() {
             </Link>
           </div>
           <div className="grid gap-4">
-            <Link
-              to="/register"
-              onClick={toggleSidebar}
-              className="flex items-center justify-between font-semibold px-4 py-1 border border-[#131921ff] hover:bg-[#131921ff] hover:text-white ease-in-out duration-200"
-            >
-              Register <FaRegUser className="text-xl" />
-            </Link>
+            {!user ? (
+              <Link
+                to="/register"
+                className="flex items-center justify-between font-semibold px-4 py-1 border border-[#131921ff] hover:bg-[#131921ff] hover:text-white ease-in-out duration-200"
+              >
+                Register
+              </Link>
+            ) : (
+              <div className="flex items-center justify-center font-semibold px-4 py-1 border border-[#131921ff] hover:bg-[#131921ff] hover:text-white ease-in-out duration-200">
+                {user.profile.firstName} {user.profile.lastName}
+              </div>
+            )}
+
             <Link
               to="/cart"
               onClick={toggleSidebar}

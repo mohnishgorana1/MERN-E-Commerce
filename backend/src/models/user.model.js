@@ -51,6 +51,9 @@ userSchema.methods = {
   },
 
   async comparePassword(plainTextPassword) {
+    console.log(
+      `PLAIN: ${typeof plainTextPassword} this: ${typeof this.password}`
+    );
     return await bcrypt.compare(plainTextPassword, this.password);
   },
 

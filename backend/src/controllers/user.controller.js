@@ -1,5 +1,5 @@
 import cloudinary, { v2 } from "cloudinary";
-
+import bcrypt from "bcryptjs";
 import fs from "fs/promises";
 import crypto from "crypto";
 import { User } from "../models/user.model.js";
@@ -81,10 +81,9 @@ export const register = async (req, res, next) => {
       if (result) {
         newUser.profile.avatar.public_id = result.public_id;
         newUser.profile.avatar.secure_url = result.secure_url;
-       
+
         //remove file from local system
         fs.rm(`uploads/${req.file.filename}`);
-
       }
     } catch (error) {
       res.status(500, "File not uploaded, Please try again!");
@@ -106,6 +105,7 @@ export const register = async (req, res, next) => {
 
 export const login = async (req, res, next) => {
   const { email, password } = req.body;
+  const myPassword = password[0];
 
   if (!email || !password) {
     res.status(400).json({ error: "All Fields are required" });
@@ -113,19 +113,21 @@ export const login = async (req, res, next) => {
 
   try {
     const user = await User.findOne({ email }).select("+password");
-    if (!user || (await !user.comparePassword(password))) {
+
+    if (!user || (await !user.comparePassword(myPassword))) {
       res.status(400).json({ error: "Invalid Credentials" });
     }
 
     const token = await user.jwtToken();
+    console.log("token", token);
     user.password = undefined;
 
-    res.cookie("token", token, cookieOptions);
-
+    // res.cookie("token", token, cookieOptions);
+    // console.log("user: ", user);
     res.status(200).json({
       success: true,
       message: "Login Success",
-      user,
+      user: user,
     });
   } catch (error) {
     res.status(500).json({ error: error });
@@ -162,7 +164,6 @@ export const getProfile = async (req, res, next) => {
   }
 };
 export const updateProfile = async (req, res, next) => {
-
   const { firstName, lastName, username } = req.body;
   const userId = req.user.id;
   const user = await User.findById(userId);
