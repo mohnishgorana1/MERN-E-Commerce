@@ -14,6 +14,7 @@ import Navbar from "./Components/Navbar/Navbar";
 import Footer from "./Components/Footer/Footer";
 import MensProductListingPage from "./Pages/ProductListingPage/MensProductListingPage";
 import WomensProductListingPage from "./Pages/ProductListingPage/WomensProductListingPage";
+import CreateProductPage from "./Pages/CreateProductsPage/CreateProductPage";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/cart" element={<CartPage />} />
+            <Route path="/products/createProduct" element={<CreateProductPage />} />
             <Route path="/products" element={<ProductListingPage />} />
             <Route path="/products/men" element={<MensProductListingPage />} />
             <Route

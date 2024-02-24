@@ -1,9 +1,8 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const productCategorySchema = new Schema(
   {
     name: { type: String, required: true, unique: true },
-    parentCategory: { type: Schema.Types.ObjectId, ref: "ProductCategory" },
     products: [{ type: Schema.Types.ObjectId, ref: "Product" }],
   },
   { timestamps: true }

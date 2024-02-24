@@ -40,7 +40,6 @@ export const loginUserAsync = createAsyncThunk(
       });
       if (response?.status === 200) {
         toast.success("User LoggedIn Successfully");
-        toast("User LoggedIn Successfully", { duration: "2000" });
       }
       console.log("login res: ", response.data);
       return response.data;

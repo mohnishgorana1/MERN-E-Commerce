@@ -8,10 +8,8 @@ export const isLoggedIn = async (req, res, next) => {
       .status(401)
       .json({ error: "Unauthenticated, Please Login Again!" });
   }
-
+  
   const userDetails = await Jwt.verify(token, process.env.JWT_SECRET);
-
   req.user = userDetails;
-
   next();
 };

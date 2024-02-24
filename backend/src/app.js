@@ -5,6 +5,7 @@ import morgan from "morgan";
 
 // routes imports
 import userRoutes from "./routes/user.routes.js";
+import productRoutes from './routes/product.routes.js'
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use("/ping", (req, res) => {
 //app routes
 
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/products", productRoutes)
 
 app.all("*", (req, res) => {
   res.status(404).send("404, Page NOT FOUND nhi mila page");
