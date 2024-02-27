@@ -122,7 +122,7 @@ export const login = async (req, res, next) => {
     console.log("token", token);
     user.password = undefined;
 
-    // res.cookie("token", token, cookieOptions);
+    res.cookie("token", token, cookieOptions);
     // console.log("user: ", user);
     res.status(200).json({
       success: true,

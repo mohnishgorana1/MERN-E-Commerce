@@ -125,7 +125,7 @@ export const fetchAllProducts = async (req, res, next) => {
 
 export const singleProduct = async (req, res, next) => {
   const productId = req.params.id;
-  console.log("productId: ", productId);
+  // console.log("productId: ", productId);
 
   try {
     const product = await Product.findById(productId).populate('category', 'name');
@@ -135,7 +135,7 @@ export const singleProduct = async (req, res, next) => {
         .status(404)
         .json({ success: false, message: "Product not found" });
     }
-    console.log(product);
+    // console.log(product);
     res.status(200).json({
       success: true,
       product: product,

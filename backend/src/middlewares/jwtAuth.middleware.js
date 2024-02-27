@@ -4,6 +4,7 @@ export const isLoggedIn = async (req, res, next) => {
   const { token } = req.cookies;
 
   if (!token) {
+    console.log("can't found token");
     return res
       .status(401)
       .json({ error: "Unauthenticated, Please Login Again!" });

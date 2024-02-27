@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSingleProduct } from "../../Redux/product/productSlice";
 import { FaPlus, FaMinus } from "react-icons/fa6";
+import { addToCartAsync } from "../../Redux/user/cartSlice";
 function ProductDetailsPage() {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -33,6 +34,11 @@ function ProductDetailsPage() {
     }
   }
 
+  function addToCart(productId, quantity) {
+    console.log(productId, quantity);
+    dispatch(addToCartAsync({ productId, quantity }));
+  }
+
   return (
     <div className="mx-8 my-5 grid gap-5 sm:grid-cols-3 items-start justify-between ">
       <div className="">
@@ -47,9 +53,7 @@ function ProductDetailsPage() {
           <span className="font-bold">{product?.name}</span>
         </h1>
         <h2 className="text-xl sm:text-2xl text-blue-950">
-          <span className="text-center">
-            {product?.description}
-          </span>
+          <span className="text-center">{product?.description}</span>
         </h2>
         <br />
         {product?.stockQuantity < 20 ? (
@@ -88,7 +92,10 @@ function ProductDetailsPage() {
           </span>
         </h1>
 
-        <button className="w-full sm:w-[20%] rounded-xl my-6 border-2 border-transparent px-5 py-2 bg-gray-800 font-semibold text-gray-100 hover:bg-transparent hover:text-gray-800 hover:border-gray-800 ease-in-out duration-150">
+        <button
+          className="w-full sm:w-[20%] rounded-xl my-6 border-2 border-transparent px-5 py-2 bg-gray-800 font-semibold text-gray-100 hover:bg-transparent hover:text-gray-800 hover:border-gray-800 ease-in-out duration-150"
+          onClick={() => addToCart(product._id, amount)}
+        >
           Add to Cart
         </button>
       </div>
