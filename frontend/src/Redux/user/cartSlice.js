@@ -2,9 +2,21 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import toast from "react-hot-toast";
 
+const getCartLength = () => {
+  const storedCartItems = JSON.parse(localStorage.getItem("cartItems"));
+  console.log(storedCartItems);
+  let length = 0;
+  storedCartItems.map((item) => {
+    length += item.quantity;
+  });
+  console.log(length);
+  return length;
+};
+
 const initialState = {
   cartData: JSON.parse(localStorage.getItem("cartData")) || null,
   cartItems: JSON.parse(localStorage.getItem("cartItems")) || null,
+  cartLength: getCartLength(),
 };
 
 export const addToCartAsync = createAsyncThunk(
@@ -47,6 +59,7 @@ const cartSlice = createSlice({
 
       state.cartData = null;
       state.cartItems = null;
+      state.cartLength = 0;
     },
   },
   extraReducers: (builder) => {
@@ -59,11 +72,16 @@ const cartSlice = createSlice({
 
       state.cartData = action.payload.cartData;
       state.cartItems = action.payload.cartItems;
+
+      let length = 0;
+      state.cartItems?.map((item) => {
+        length = length + Number(item?.quantity);
+      });
+      state.cartLength = length;
     });
     builder.addCase(clearCartAsync.fulfilled, (state, action) => {
       console.log("CART CLEAR SERVER ", action.payload);
-      state.cartData = null,
-      state.cartItems = null
+      (state.cartData = null), (state.cartItems = null);
     });
   },
 });

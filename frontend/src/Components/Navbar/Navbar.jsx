@@ -20,14 +20,18 @@ function Navbar() {
     },
   ];
 
-  const user = useSelector((state) => state.auth.user) || null;
-
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  const user = useSelector((state) => state.auth.user) || null;
+  const cartLength = useSelector((state) => state.cart.cartLength)
+
+
   const toggleSidebar = () => {
+    console.log(cartLength);
     setIsSidebarOpen(!isSidebarOpen);
   };
 
@@ -63,7 +67,7 @@ function Navbar() {
               Register
             </Link>
           ) : (
-            <div className="hidden sm:flex font-semibold px-4 py-1 border border-white hover:bg-white hover:text-[#131921ff] ease-in-out duration-200">
+            <div className="hidden sm:flex font-semibold px-4 py-2 border border-white hover:bg-white hover:text-[#131921ff] ease-in-out duration-200">
               {user.profile.firstName} {user.profile.lastName}
             </div>
           )}
@@ -72,7 +76,7 @@ function Navbar() {
             <Link
               to="/"
               onClick={() => dispatch(logoutUserAsync())}
-              className="hidden sm:flex font-semibold px-4 py-1 border border-white hover:bg-white hover:text-[#131921ff] ease-in-out duration-200"
+              className="hidden sm:flex font-semibold px-4 py-2 border border-white hover:bg-white hover:text-[#131921ff] ease-in-out duration-200"
             >
               Logout
             </Link>
@@ -80,10 +84,13 @@ function Navbar() {
 
           <Link
             to="/cart"
-            className="flex items-center gap-1 px-4 py-1 border border-transparent hover:border hover:border-white ease-in-out duration-200"
+            className="relative flex items-center gap-1 px-4 py-2 border border-transparent hover:border hover:border-white ease-in-out duration-200"
           >
             <span className="hidden sm:flex">Cart </span>{" "}
             <FaShoppingCart className="text-2xl" />
+            <span className="bg-white px-1 text-gray-950 border border-gray-950 font-bold rounded-full text-xs absolute right-2 bottom-5">
+              {cartLength}
+            </span>
           </Link>
         </div>
       </nav>
@@ -152,10 +159,13 @@ function Navbar() {
             <Link
               to="/cart"
               onClick={toggleSidebar}
-              className="flex items-center justify-between gap-1 px-4 py-1 border border-[#131921ff] hover:bg-[#131921ff] hover:text-white ease-in-out duration-200"
+              className="relative group flex items-center justify-between gap-1 px-4 py-2 border border-[#131921ff] hover:bg-[#131921ff] hover:text-white ease-in-out duration-200"
             >
               <span className="">Cart</span>{" "}
               <FaShoppingCart className="text-2xl" />
+              <span className="text-white px-1 bg-gray-950 border border-white font-bold rounded-full text-[12px] absolute right-1 bottom-5">
+                {cartLength}
+              </span>
             </Link>
           </div>
         </div>

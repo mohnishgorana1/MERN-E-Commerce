@@ -13,11 +13,19 @@ function CartPage() {
   const user = useSelector((state) => state.auth.user) || null;
 
   const [orderTotal, setOrderTotal] = useState(0);
-  useEffect(() => {
-    const amountToPay =
-      Number(cartData?.subTotal + 100 + cartData?.subTotal / 10).toFixed(2) ||
-      123;
+  const [shippingFee, setShippingFee] = useState(0);
+  const handleOrder = () => {
+    if(cartData.subTotal < 100){
+      setShippingFee(100)
+    }else{
+      setShippingFee(0)
+    }
+    const amountToPay = Number(cartData?.subTotal + shippingFee + cartData?.subTotal / 100).toFixed(2) || 0;
     setOrderTotal(Math.round(amountToPay));
+  };
+
+  useEffect(() => {
+    handleOrder();
   }, [cartData?.subTotal]);
 
   function handleClearCart() {
@@ -96,13 +104,13 @@ function CartPage() {
             </div>
             <div className="flex items-center justify-between border-b-2 mb-2">
               <h4>Shipping</h4>
-              <span>₹ {`${Number(100).toFixed(2)}`}</span>
+              <span>₹ {`${Number(shippingFee).toFixed(2)}`}</span>
             </div>
             <div className="flex items-center justify-between border-b-2 mb-5">
               <h4>
-                Tax &nbsp;<small> 0.1%</small>
+                Tax &nbsp;<small> 0.01%</small>
               </h4>
-              <span>₹ {`${Number(cartData?.subTotal / 10).toFixed(2)}`}</span>
+              <span>₹ {`${Number(cartData?.subTotal / 100).toFixed(2)}`}</span>
             </div>
             <div className="flex items-center justify-between border-b-2 mb-3 mt-6">
               <h2 className="font-bold">Order Total</h2>
