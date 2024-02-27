@@ -97,7 +97,7 @@ function Navbar() {
       ></div>
       {/* sidebar-content */}
       <div
-        className={`fixed inset-y-0 left-0 w-[80%] sm:w-64 bg-gray-300 transform transition-transform ease-in-out duration-300 ${
+        className={`z-50 fixed inset-y-0 left-0 w-[80%] sm:w-64 bg-gray-300 transform transition-transform ease-in-out duration-300 ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >

@@ -56,13 +56,13 @@ export const addToCart = async (req, res, next) => {
     await cart.save();
 
     // fetch the cart items with details
-    const updatedCart = await Cart.findById(cart._id).populate('items.product')
-    
+    const updatedCart = await Cart.findById(cart._id).populate("items.product");
+
     res.status(200).json({
       success: true,
       message: "Product added to the cart successfully",
       cartData: cart,
-      cartItems: updatedCart.items
+      cartItems: updatedCart.items,
     });
   } catch (error) {
     console.error(error);
@@ -70,4 +70,38 @@ export const addToCart = async (req, res, next) => {
   }
 };
 
+export const clearCart = async (req, res, next) => {
+  try {
+    // get user and retrieve cart
+    const userId = req.user.id;
+    console.log("userId: ", userId);
+    const user = await User.findById(userId).populate('cart');
 
+    // check user and cart
+    if (!user) {
+      console.log("User not found");
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+    if (!user.cart) {
+      console.log("Cart not found");
+      return res
+        .status(404)
+        .json({ success: false, message: "Cart not found" });
+    }
+
+    user.cart.items = []; // remove items from cart
+    user.cart.subTotal = 0; // reset total
+    await user.cart.save(); // save cart
+
+    console.log("CART CLEARED");
+
+    res
+      .status(200)
+      .json({ success: true, message: "Cart cleared successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};

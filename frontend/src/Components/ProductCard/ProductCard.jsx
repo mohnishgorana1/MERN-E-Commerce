@@ -17,11 +17,11 @@ function ProductCard({ product }) {
   const navigate = useNavigate();
   return (
     <div className="border sm:w-full flex flex-col h-[500px] bg-gray-900 relative">
-      <div className="overflow-hidden  ">
+      <div className="overflow-hidden">
         <img
           src={images.secure_url}
           alt="item_image"
-          className="w-full hover:scale-125 duration-200 ease-in-out"
+          className="w-full hover:scale-150 duration-500 ease-in-out"
         />
       </div>
       <div className="flex flex-col items-center gap-3 mt-8 text-gray-100 ">

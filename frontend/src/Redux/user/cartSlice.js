@@ -25,10 +25,30 @@ export const addToCartAsync = createAsyncThunk(
   }
 );
 
+export const clearCartAsync = createAsyncThunk("cart/clear", async () => {
+  try {
+    const response = await axios.get("/api/v1/cart/clear");
+    console.log(response);
+    toast.success("Cart Cleared");
+    return response?.data;
+  } catch (error) {
+    toast.error("Failed to add product to the cart");
+    throw error;
+  }
+});
+
 const cartSlice = createSlice({
   name: "cart",
   initialState,
-  reducers: {},
+  reducers: {
+    clearCart: (state) => {
+      localStorage.removeItem("cartData");
+      localStorage.removeItem("cartItems");
+
+      state.cartData = null;
+      state.cartItems = null;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(addToCartAsync.fulfilled, (state, action) => {
       localStorage.setItem("cartData", JSON.stringify(action.payload.cartData));
@@ -40,7 +60,12 @@ const cartSlice = createSlice({
       state.cartData = action.payload.cartData;
       state.cartItems = action.payload.cartItems;
     });
+    builder.addCase(clearCartAsync.fulfilled, (state, action) => {
+      console.log("CART CLEAR SERVER ", action.payload);
+      state.cartData = null,
+      state.cartItems = null
+    });
   },
 });
-
+export const { clearCart } = cartSlice.actions;
 export default cartSlice.reducer;
