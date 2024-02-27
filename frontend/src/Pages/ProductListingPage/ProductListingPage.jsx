@@ -18,7 +18,7 @@ function ProductListingPage() {
     log();
   }, []);
   return (
-    <div className="border border-black mx-8 my-8 grid grid-cols-2 sm:grid-cols-4 gap-5 items-center justify-center">
+    <div className="mx-8 my-8 grid grid-cols-2 sm:grid-cols-4 gap-5 items-center justify-center">
       {products &&
         products.map((product, index) => {
           return <ProductCard key={index} product={product} />;

@@ -81,7 +81,7 @@ const userSlice = createSlice({
       state.user = action.payload?.newUser;
       state.status = "succeeded";
 
-      localStorage.setItem("user", JSON.stringify(state.user));
+      localStorage.setItem("user", JSON.stringify(action?.payload?.newUser));
     });
 
     // Reducer for loginUser
@@ -89,7 +89,7 @@ const userSlice = createSlice({
       state.user = action.payload?.user;
       state.status = "succeeded";
 
-      localStorage.setItem("user", JSON.stringify(state.user));
+      localStorage.setItem("user", JSON.stringify(action?.payload?.user));
     });
 
     // Reducer for logoutUser

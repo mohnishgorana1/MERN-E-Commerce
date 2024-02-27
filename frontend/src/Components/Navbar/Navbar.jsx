@@ -78,7 +78,10 @@ function Navbar() {
             </Link>
           )}
 
-          <Link className="flex items-center gap-1 px-4 py-1 border border-transparent hover:border hover:border-white ease-in-out duration-200">
+          <Link
+            to="/cart"
+            className="flex items-center gap-1 px-4 py-1 border border-transparent hover:border hover:border-white ease-in-out duration-200"
+          >
             <span className="hidden sm:flex">Cart </span>{" "}
             <FaShoppingCart className="text-2xl" />
           </Link>
