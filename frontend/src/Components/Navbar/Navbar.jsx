@@ -101,6 +101,13 @@ function Navbar() {
         <div className="h-full flex flex-col px-4 py-8 gap-8 justify-between">
           <div>
             <Link
+              to="/products"
+              className="block py-2 px-4 hover:bg-slate-900 hover:text-white"
+              onClick={toggleSidebar}
+            >
+              ALL PRODUCTS
+            </Link>
+            <Link
               to="/products/men"
               className="block py-2 px-4 hover:bg-slate-900 hover:text-white"
               onClick={toggleSidebar}

@@ -55,7 +55,7 @@ function CreateProductPage() {
     }
     console.log("FORMDATA FOR SERVER", formDataForServer);
     const res = await dispatch(createProductAsync(formDataForServer));
-    if (res?.payload?.success) {
+    if (res?.payload?.success === true) {
       setFormData({
         name: "",
         description: "",
@@ -141,7 +141,7 @@ function CreateProductPage() {
                 onChange={handleChange}
                 required
               >
-                <option value="">Gender</option>
+                <option value="" className="text-gray-300">Gender</option>
                 <option value="MEN">MEN</option>
                 <option value="WOMEN">WOMEN</option>
               </select>
@@ -162,7 +162,6 @@ function CreateProductPage() {
                     onChange={handleChange}
                     value={formData.isFeatured}
                     className="border border-black h-8 w-5 py-8 rounded-full"
-                    required
                   />
                 </label>
                 <label className="flex items-center gap-3 justify-between">
@@ -173,7 +172,6 @@ function CreateProductPage() {
                     value={formData.stockQuantity}
                     onChange={handleChange}
                     className="border border-gray-500 h-5 w-12 text-center"
-                    required
                   />
                 </label>
               </div>

@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { Product } from "../models/product.model.js";
 import { ProductCategory } from "../models/productCategory.model.js";
 import cloudinary, { v2 } from "cloudinary";
@@ -16,7 +17,16 @@ export const createProduct = async (req, res, next) => {
     isFeatured: req.body.isFeatured,
     stockQuantity: Number(req.body.stockQuantity),
   };
-  if ( !productData.name || !productData.description || !productData.price || !productData.category || !productData.gender || !productData.brand || !productData.isFeatured || !productData.stockQuantity) {
+  if (
+    !productData.name ||
+    !productData.description ||
+    !productData.price ||
+    !productData.category ||
+    !productData.gender ||
+    !productData.brand ||
+    !productData.isFeatured ||
+    !productData.stockQuantity
+  ) {
     console.log("All field are required");
     return res
       .status(400)
@@ -24,9 +34,13 @@ export const createProduct = async (req, res, next) => {
   }
 
   // Check category is available or we have to create new one
-  let productCategory = await ProductCategory.findOne({ name: productData.category });
+  let productCategory = await ProductCategory.findOne({
+    name: productData.category,
+  });
   if (!productCategory) {
-    productCategory = await ProductCategory.create({ name: productData.category });
+    productCategory = await ProductCategory.create({
+      name: productData.category,
+    });
   }
 
   // create the product with some data
@@ -71,10 +85,16 @@ export const createProduct = async (req, res, next) => {
         fs.rm(`uploads/${req.file.filename}`);
       }
     } catch (error) {
-      return res.status(500, "Product Image File not uploaded, Please try again!");
+      return res.status(
+        500,
+        "Product Image File not uploaded, Please try again!"
+      );
     }
-  }else{
-    return res.status(500, "Product Image File not received from client side , Please try again!");
+  } else {
+    return res.status(
+      500,
+      "Product Image File not received from client side , Please try again!"
+    );
   }
 
   // last tasks: save newProduct, add newProduct to products of productCategory , save productCategory
@@ -82,12 +102,50 @@ export const createProduct = async (req, res, next) => {
   productCategory.products.push(newProduct._id);
   await productCategory.save();
 
-
-  // if your there then send response 
+  // if your there then send response
   res.status(201).json({
     success: true,
     message: "Product Created SuccessFully",
     newProduct: newProduct,
-
   });
+};
+
+export const fetchAllProducts = async (req, res, next) => {
+  try {
+    const products = await Product.find();
+    res.status(200).json({ success: true, products });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message,
+      message: "Can't Fetch All Products",
+    });
+  }
+};
+
+export const singleProduct = async (req, res, next) => {
+  const productId = req.params.id;
+  console.log("productId: ", productId);
+
+  try {
+    const product = await Product.findById(productId).populate('category', 'name');
+    if (!product) {
+      console.log("Can't find your product");
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
+    }
+    console.log(product);
+    res.status(200).json({
+      success: true,
+      product: product,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      error: error.message,
+      message: "Can't Fetch Required Products",
+    });
+  }
 };
