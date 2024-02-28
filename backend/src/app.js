@@ -16,6 +16,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(morgan("dev"));
 
+
+app.use(cors({
+  origin: "https://mern-e-commerce-zeta.vercel.app/",
+  credentials: true,  // If you're using credentials (e.g., cookies)
+}));
+
+
 // default route
 app.use("/ping", (req, res) => {
   res.status(200).json({

@@ -12,6 +12,7 @@ export default defineConfig({
         target: "https://mern-e-commerce-ep8f.onrender.com",
         secure: true,
         changeOrigin: true,
+        credentials: true, 
       },
     },
   },
