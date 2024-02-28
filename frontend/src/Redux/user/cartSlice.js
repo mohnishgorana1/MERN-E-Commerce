@@ -3,8 +3,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 const getCartLength = () => {
-  const storedCartItems = JSON.parse(localStorage.getItem("cartItems"));
-  console.log(storedCartItems);
+  const storedCartItems = JSON.parse(localStorage.getItem("cartItems")) || []
   let length = 0;
   storedCartItems.map((item) => {
     length += item.quantity;
