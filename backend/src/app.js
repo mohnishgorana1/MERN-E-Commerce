@@ -7,7 +7,7 @@ import morgan from "morgan";
 import userRoutes from "./routes/user.routes.js";
 import productRoutes from './routes/product.routes.js'
 import cartRoutes from './routes/cart.routes.js'
-import paymentRoutes from './routes/payment.routes.js'
+// import paymentRoutes from './routes/payment.routes.js'
 
 
 const app = express();
@@ -38,7 +38,7 @@ app.use("/ping", (req, res) => {
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/products", productRoutes)
 app.use("/api/v1/cart", cartRoutes)
-app.use("/api/v1/payment", paymentRoutes)
+// app.use("/api/v1/payment", paymentRoutes)
 
 
 
