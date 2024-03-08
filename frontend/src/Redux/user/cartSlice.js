@@ -3,7 +3,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 const getCartLength = () => {
-  const storedCartItems = JSON.parse(localStorage.getItem("cartItems")) || []
+  const storedCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
   let length = 0;
   storedCartItems.map((item) => {
     length += item.quantity;
@@ -48,6 +48,23 @@ export const clearCartAsync = createAsyncThunk("cart/clear", async () => {
   }
 });
 
+export const removeItemAsync = createAsyncThunk(
+  "cart/removeItem",
+  async (productId) => {
+    try {
+      const response = await axios.post("/api/v1/cart/removeItem", {
+        productId,
+      });
+      console.log(response);
+      toast.success("Item Removed");
+      return response?.data;
+    } catch (error) {
+      toast.error("Failed to remove a product from the cart");
+      throw error;
+    }
+  }
+);
+
 const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -81,6 +98,24 @@ const cartSlice = createSlice({
     builder.addCase(clearCartAsync.fulfilled, (state, action) => {
       console.log("CART CLEAR SERVER ", action.payload);
       (state.cartData = null), (state.cartItems = null);
+    });
+    builder.addCase(removeItemAsync.fulfilled, (state, action) => {
+      console.log(action.payload);
+
+      state.cartData = action.payload.cartData;
+      state.cartItems = action.payload.cartItems;
+
+      let length = 0;
+      state.cartItems?.map((item) => {
+        length = length + Number(item?.quantity);
+      });
+      state.cartLength = length;
+
+      localStorage.setItem("cartData", JSON.stringify(action.payload.cartData));
+      localStorage.setItem(
+        "cartItems",
+        JSON.stringify(action.payload.cartItems)
+      );
     });
   },
 });

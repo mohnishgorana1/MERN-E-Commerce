@@ -27,8 +27,7 @@ function Navbar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const user = useSelector((state) => state.auth.user) || null;
-  const cartLength = useSelector((state) => state.cart.cartLength)
-
+  const cartLength = useSelector((state) => state.cart.cartLength);
 
   const toggleSidebar = () => {
     console.log(cartLength);
@@ -60,12 +59,20 @@ function Navbar() {
           className="col-span-3 sm:col-span-4 flex items-center justify-end gap-8"
         >
           {!user ? (
-            <Link
-              to="/register"
-              className="hidden sm:flex font-semibold px-4 py-1 border border-white hover:bg-white hover:text-[#131921ff] ease-in-out duration-200"
-            >
-              Register
-            </Link>
+            <>
+              <Link
+                to="/register"
+                className="hidden sm:flex font-semibold px-4 py-1 border border-white hover:bg-white hover:text-[#131921ff] ease-in-out duration-200"
+              >
+                Register
+              </Link>
+              <Link
+                to="/login"
+                className="hidden sm:flex font-semibold px-4 py-1 border border-white hover:bg-white hover:text-[#131921ff] ease-in-out duration-200"
+              >
+                Login
+              </Link>
+            </>
           ) : (
             <div className="hidden sm:flex font-semibold px-4 py-2 border border-white hover:bg-white hover:text-[#131921ff] ease-in-out duration-200">
               {user.profile.firstName} {user.profile.lastName}
@@ -134,12 +141,20 @@ function Navbar() {
           </div>
           <div className="grid gap-4">
             {!user ? (
-              <Link
-                to="/register"
-                className="flex items-center justify-between font-semibold px-4 py-1 border border-[#131921ff] hover:bg-[#131921ff] hover:text-white ease-in-out duration-200"
-              >
-                Register
-              </Link>
+              <>
+                <Link
+                  to="/register"
+                  className="flex items-center justify-between font-semibold px-4 py-1 border border-[#131921ff] hover:bg-[#131921ff] hover:text-white ease-in-out duration-200"
+                >
+                  Register
+                </Link>
+                <Link
+                  to="/login"
+                  className="flex items-center justify-between font-semibold px-4 py-1 border border-[#131921ff] hover:bg-[#131921ff] hover:text-white ease-in-out duration-200"
+                >
+                  Login
+                </Link>
+              </>
             ) : (
               <div className="flex items-center justify-center font-semibold px-4 py-1 border border-[#131921ff] hover:bg-[#131921ff] hover:text-white ease-in-out duration-200">
                 {user.profile.firstName} {user.profile.lastName}

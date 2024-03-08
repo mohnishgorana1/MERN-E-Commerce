@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearCart, clearCartAsync } from "../../Redux/user/cartSlice";
+import {
+  clearCart,
+  clearCartAsync,
+  removeItemAsync,
+} from "../../Redux/user/cartSlice";
 import { Link, useNavigate } from "react-router-dom";
 
 function CartPage() {
@@ -15,12 +19,15 @@ function CartPage() {
   const [orderTotal, setOrderTotal] = useState(0);
   const [shippingFee, setShippingFee] = useState(0);
   const handleOrder = () => {
-    if(cartData.subTotal < 100){
-      setShippingFee(100)
-    }else{
-      setShippingFee(0)
+    if (cartData?.subTotal < 100) {
+      setShippingFee(100);
+    } else {
+      setShippingFee(0);
     }
-    const amountToPay = Number(cartData?.subTotal + shippingFee + cartData?.subTotal / 100).toFixed(2) || 0;
+    const amountToPay =
+      Number(
+        cartData?.subTotal + shippingFee + cartData?.subTotal / 100
+      ).toFixed(2) || 0;
     setOrderTotal(Math.round(amountToPay));
   };
 
@@ -31,12 +38,16 @@ function CartPage() {
   function handleClearCart() {
     dispatch(clearCart());
     dispatch(clearCartAsync());
-    navigate('/')
+    navigate("/");
   }
 
-  if (!cartData || !cartItems) {
+  function handleRemoveItem(productId) {
+    dispatch(removeItemAsync(productId));
+  }
+
+  if (cartItems.length < 1) {
     return (
-      <div className="w-full h-screen flex flex-col gap-8 items-center justify-center bg-gray-400 ">
+      <div className="w-full h-screen flex flex-col gap-8 items-center justify-center bg-gray-300 text-gray-800">
         <h1 className="font-bold text-5xl font-serif">Cart is Empty </h1>
         <p>
           Please add&nbsp;
@@ -66,7 +77,7 @@ function CartPage() {
       <div className="border h-[1px] border-gray-300 "></div>
 
       <div className="grid sm:grid-cols-12">
-        <div className="sm:col-span-9 border-b-2 sm:border-b-0 sm:border-r-2  border-gray-500 grid gap-5 px-5 py-5">
+        <div className="sm:col-span-9 sm:border-b-0 sm:border-r-2  border-gray-500 grid gap-5 px-5 py-5">
           {cartItems &&
             cartItems.map((item, index) => {
               return (
@@ -81,15 +92,23 @@ function CartPage() {
                       className="h-[150px] w-[150px] sm:h-[100px] sm:w-[100px]"
                     />
                   </div>
-                  <div className="sm:col-span-3 grid sm:grid-cols-3 items-center justify-between gap-4">
-                    <div className="sm:col-span-2">
+                  <div className="sm:col-span-3 grid sm:grid-cols-12 items-center justify-between gap-4">
+                    <div className="sm:col-span-5">
                       <p className="font-bold text-lg">{item?.product?.name}</p>
                       <p className="font-semibold">{item?.product?.brand}</p>
                     </div>
-                    <div className="sm:col-span-1 font-semibold grid sm:gap-2">
+                    <div className="sm:col-span-5 font-semibold grid sm:gap-2 sm:place-self-center">
                       <p>Quantity: {item?.quantity}</p>
                       <p>Price: ₹{item?.product.price}</p>
                       <p>Total: ₹{item?.quantity * item?.product.price}</p>
+                    </div>
+                    <div className="sm:col-span-1 place-self-end sm:place-self-center">
+                      <button
+                        onClick={() => handleRemoveItem(item?.product?._id)}
+                        className="font-semibold rounded-2xl border bg-white border-purple-600 text-purple-600 px-3 py-1 hover:bg-purple-600 hover:text-white duration-300"
+                      >
+                        remove
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -119,7 +138,10 @@ function CartPage() {
             </div>
           </div>
           {user ? (
-            <Link to='/checkout' className="text-center font-bold px-4 py-2 rounded-lg bg-yellow-500  text-blue-950 hover:bg-blue-950 hover:text-yellow-500 duration-200 ease-in-out">
+            <Link
+              to="/checkout"
+              className="text-center font-bold px-4 py-2 rounded-lg bg-yellow-500  text-blue-950 hover:bg-blue-950 hover:text-yellow-500 duration-200 ease-in-out"
+            >
               Proceed to Checkout
             </Link>
           ) : (
