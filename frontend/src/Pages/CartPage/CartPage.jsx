@@ -31,6 +31,7 @@ function CartPage() {
   function handleClearCart() {
     dispatch(clearCart());
     dispatch(clearCartAsync());
+    navigate('/')
   }
 
   if (!cartData || !cartItems) {
@@ -118,9 +119,9 @@ function CartPage() {
             </div>
           </div>
           {user ? (
-            <button className="font-bold px-4 py-2 rounded-lg bg-yellow-500  text-blue-950 hover:bg-blue-950 hover:text-yellow-500 duration-200 ease-in-out">
+            <Link to='/checkout' className="text-center font-bold px-4 py-2 rounded-lg bg-yellow-500  text-blue-950 hover:bg-blue-950 hover:text-yellow-500 duration-200 ease-in-out">
               Proceed to Checkout
-            </button>
+            </Link>
           ) : (
             <button className="font-bold px-4 py-2 border rounded-lg bg-teal-700 hover:bg-teal-900 text-white">
               Please Login

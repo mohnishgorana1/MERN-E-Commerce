@@ -9,10 +9,8 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://mern-e-commerce-ep8f.onrender.com",
-        secure: true,
-        changeOrigin: true,
-        credentials: true, 
+        target: "http://localhost:8000",
+        secure: false,
       },
     },
   },
@@ -22,5 +20,7 @@ export default defineConfig({
 // secure: true,
 // changeOrigin: true
 
-// target: "http://localhost:8000",
-// secure: false,
+// target: "https://mern-e-commerce-ep8f.onrender.com",
+// secure: true,
+// changeOrigin: true,
+// credentials: true,
