@@ -113,7 +113,12 @@ export const createProduct = async (req, res, next) => {
 export const fetchAllProducts = async (req, res, next) => {
   try {
     const products = await Product.find();
-    res.status(200).json({ success: true, products });
+    const categories = await ProductCategory.find();
+    const categoryNames = categories.map((category) => category.name);
+
+    res
+      .status(200)
+      .json({ success: true, products, categories: categoryNames });
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -128,7 +133,10 @@ export const singleProduct = async (req, res, next) => {
   // console.log("productId: ", productId);
 
   try {
-    const product = await Product.findById(productId).populate('category', 'name');
+    const product = await Product.findById(productId).populate(
+      "category",
+      "name"
+    );
     if (!product) {
       console.log("Can't find your product");
       return res
@@ -147,5 +155,40 @@ export const singleProduct = async (req, res, next) => {
       error: error.message,
       message: "Can't Fetch Required Products",
     });
+  }
+};
+
+export const filterProducts = async (req, res, next) => {
+  try {
+    const { category, gender, price, isFeatured, sortOrder } = req.body;
+    console.log("Req", req.body);
+    const filter = {};
+
+    if (category) {
+      const categoryObject = await ProductCategory.findOne({ name: category });
+      filter.category = categoryObject._id;
+    }
+    if (gender) {
+      filter.gender = gender.toUpperCase();
+    }
+    if (isFeatured !== undefined) {
+      filter.isFeatured = isFeatured;
+    }
+    if (price) {
+      filter.price = { $lte: price };
+    }
+
+    console.log("filters: ", filter);
+
+    const product = await Product.find(filter)
+      .sort(sortOrder === "desc" ? { name: -1 } : { name: 1 })
+      .populate("category");
+
+    console.log("products: ", product);
+
+    res.status(200).json({ success: true, filteredProducts: product });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };

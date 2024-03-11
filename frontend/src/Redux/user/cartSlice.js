@@ -8,7 +8,6 @@ const getCartLength = () => {
   storedCartItems.map((item) => {
     length += item.quantity;
   });
-  console.log(length);
   return length;
 };
 

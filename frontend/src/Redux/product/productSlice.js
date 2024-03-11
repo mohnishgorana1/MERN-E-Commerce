@@ -4,6 +4,7 @@ import axios from "axios";
 
 const initialState = {
   products: [],
+  categories: [],
   singleProduct: null,
   status: "idle",
   error: null,
@@ -36,10 +37,43 @@ export const fetchSingleProduct = createAsyncThunk(
     try {
       const response = await axios.get(`/api/v1/products/${productId}`);
       console.log(response);
-      toast.success("Product Fetched")
-      return response?.data?.product
+      toast.success("Product Fetched");
+      return response?.data?.product;
     } catch (error) {
       toast.error("Can't fetch your product");
+    }
+  }
+);
+
+export const fetchAllProductsAsync = createAsyncThunk(
+  "products/fetchAll",
+  async () => {
+    try {
+      const response = await axios.get("/api/v1/products/getAllProducts");
+      toast.success("Product Fetched");
+      return response?.data;
+    } catch (error) {
+      toast.error("Cant fetched All Products");
+    }
+  }
+);
+
+export const filterProductsAsync = createAsyncThunk(
+  "products/filter",
+  async (filterData) => {
+    try {
+      const response = await axios.post(
+        "/api/v1/products/filterProducts",
+        filterData
+      );
+      if (response?.data?.filteredProducts.length < 1) {
+        toast.success("No Products Matched");
+      } else {
+        toast.success("Products Fetched");
+      }
+      return response?.data?.filteredProducts;
+    } catch (error) {
+      toast.error("Can't filter products");
     }
   }
 );
@@ -57,7 +91,15 @@ const productSlice = createSlice({
     builder.addCase(fetchSingleProduct.fulfilled, (state, action) => {
       state.status = "succeeded";
       state.singleProduct = action.payload;
-    })
+    });
+    builder.addCase(fetchAllProductsAsync.fulfilled, (state, action) => {
+      state.products = action.payload.products;
+      state.categories = action.payload.categories;
+    });
+    builder.addCase(filterProductsAsync.fulfilled, (state, action) => {
+      state.status = "succeeded";
+      state.products = action.payload;
+    });
   },
 });
 

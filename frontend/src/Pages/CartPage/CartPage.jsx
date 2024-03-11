@@ -28,12 +28,15 @@ function CartPage() {
       Number(
         cartData?.subTotal + shippingFee + cartData?.subTotal / 100
       ).toFixed(2) || 0;
+    console.log(
+      `${cartData?.subTotal} + ${shippingFee} + ${cartData?.subTotal / 100}`
+    );
     setOrderTotal(Math.round(amountToPay));
   };
 
   useEffect(() => {
     handleOrder();
-  }, [cartData?.subTotal]);
+  }, [cartItems]);
 
   function handleClearCart() {
     dispatch(clearCart());
@@ -66,6 +69,7 @@ function CartPage() {
         <h1 className="text-2xl sm:text-3xl font-bold text-blue-900">
           Shopping Cart
         </h1>
+
         <button
           onClick={() => handleClearCart()}
           className="px-4 py-[2px] text-sm bg-red-600 text-white rounded-xl"

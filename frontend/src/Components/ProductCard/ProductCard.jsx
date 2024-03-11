@@ -26,7 +26,7 @@ function ProductCard({ product }) {
       </div>
       <div className="flex flex-col items-center gap-3 mt-8 text-gray-100 ">
         <h1 className="font-bold text-xl text-center">{name}</h1>
-        <p className="font-semibold ">Price: ₹{price}</p>
+        <p className="font-semibold ">Price: ₹<span className="font-bold text-white">{price}</span></p>
         <button 
             className="rounded-xl mt-2 border border-transparent px-5 py-1 bg-green-600 font-semibold text-gray-950 hover:bg-transparent hover:text-green-600 hover:border-green-600 ease-in-out duration-150"
             onClick={() => navigate(`/product/${_id}`)}    
