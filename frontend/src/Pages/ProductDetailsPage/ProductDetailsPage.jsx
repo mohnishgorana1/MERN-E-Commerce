@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSingleProduct } from "../../Redux/product/productSlice";
 import { FaPlus, FaMinus } from "react-icons/fa6";
@@ -40,7 +40,14 @@ function ProductDetailsPage() {
   }
 
   return (
-    <div className="mx-8 my-5 grid gap-5 sm:grid-cols-3 items-start justify-between ">
+    <div className="mx-4 sm:mx-8 my-5 grid gap-5 sm:grid-cols-3 items-center justify-center sm:items-start sm:justify-between relative">
+      <div className="justify-self-start self-start visible sm:hidden">
+        Take Me to All
+        <Link to="/products" className="text-blue-800 font-semibold underline">
+          {" "}
+          Products
+        </Link>
+      </div>
       <div className="">
         <img
           src={product?.images.secure_url}
@@ -98,6 +105,12 @@ function ProductDetailsPage() {
         >
           Add to Cart
         </button>
+      </div>
+      <div className="hidden sm:flex absolute right-0">
+        Take Me to All&nbsp;
+        <Link to="/products" className="text-blue-800 font-semibold underline">
+          Products
+        </Link>
       </div>
     </div>
   );

@@ -161,7 +161,7 @@ export const singleProduct = async (req, res, next) => {
 export const filterProducts = async (req, res, next) => {
   try {
     const { category, gender, price, isFeatured, sortOrder } = req.body;
-    console.log("Req", req.body);
+    // console.log("Req", req.body);
     const filter = {};
 
     if (category) {
@@ -178,13 +178,13 @@ export const filterProducts = async (req, res, next) => {
       filter.price = { $lte: price };
     }
 
-    console.log("filters: ", filter);
+    // console.log("filters: ", filter);
 
     const product = await Product.find(filter)
       .sort(sortOrder === "desc" ? { name: -1 } : { name: 1 })
       .populate("category");
 
-    console.log("products: ", product);
+    // console.log("products: ", product);
 
     res.status(200).json({ success: true, filteredProducts: product });
   } catch (error) {
